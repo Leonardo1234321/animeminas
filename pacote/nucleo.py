@@ -1,5 +1,6 @@
 from glob import glob
 import os
+import time
 import turtle
 from pathlib import Path
 
@@ -10,6 +11,12 @@ balao.hideturtle()
 balao.down()
 
 def carrega_personagens():
+    """Carrega os personagens da animação.
+
+    Carrega os personagens da animação, que são arquivos .gif
+    presentes no diretório 'personagens' do pacote.
+    """
+
     cam_personagens = Path(__file__).parent / "personagens"
     cam_atual = Path.cwd()
 
@@ -21,17 +28,36 @@ def carrega_personagens():
 
 def fala(personagem: turtle.Turtle, 
          texto: str, 
-         angulo: int, 
-         distancia: int,
-         tempo: float):
+         angulo: int = 45, 
+         distancia: int = 150,
+         tempo: float = 5):
+    """Exibe um balão de fala para um personagem.
+
+    Exibe um balão de fala para um personagem, com o texto
+    passado como parâmetro, em um ângulo e distância específicos.
+    """
     
     x,y = personagem.pos()
     balao.goto(x, y)   
     balao.left(angulo)
     balao.forward(distancia)
     balao.write(fala)
-    sleep(tempo)
+    time.sleep(tempo)
     balao.undo()
     balao.undo()
     balao.undo()
 
+def carrega_img_fundo(img_fundo: str):
+    """Carrega uma imagem de fundo para a tela.
+
+    Carrega uma imagem de fundo para a tela, que é um arquivo .gif
+    presente no diretório 'imagens' do pacote.
+    """
+
+    cam_imagens = Path(__file__).parent / "fundos" / img_fundo
+    cam_atual = Path.cwd()
+
+    os.chdir(cam_imagens.as_posix())
+    turtle.bgpic(img_fundo)
+
+    os.chdir(cam_atual.as_posix())
